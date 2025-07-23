@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Events — Hack Club PDX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Fira Code', monospace;
+      background: #0f0f0f;
+      color: #f0f0f0;
+      height: 100%;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header, footer {
+      background: #1a1a1a;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #ff3860;
+    }
+
+    nav {
+      background: #121212;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: #f0f0f0;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #ff3860;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #ff3860;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin-top: 20px;
+    }
+
+    .day {
+      border: 1px solid #333;
+      padding: 15px;
+      min-height: 80px;
+      position: relative;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .day:hover {
+      background: #1a1a1a;
+    }
+
+    .day.today {
+      border: 2px solid #ff3860;
+    }
+
+    .event-popup {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #1f1f1f;
+      color: #fff;
+      padding: 10px;
+      border: 1px solid #ff3860;
+      z-index: 10;
+      display: none;
+    }
+
+    .event-popup.visible {
+      display: block;
+    }
+
+    footer {
+      background: #1a1a1a;
+      color: #888;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>Hack Club PDX</h1>
+    </header>
+    
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="events.html">Events</a>
+      <a href="#">Projects</a>
+      <a href="#">Join</a>
+    </nav>
+
+    <main>
+      <h2>Events This Month</h2>
+      <div id="calendar" class="calendar"></div>
+    </main>
+
+    <footer>
+      &copy; 2025 Hack Club PDX
+    </footer>
+  </div>
+
+  <script>
+    const calendarEl = document.getElementById('calendar');
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth(); // 0-indexed
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const events = {
+      3: "Intro to Python Workshop",
+      10: "Game Dev Jam!",
+      15: "Speaker: Ada from PDX AI Club",
+      23: "Hack Night + Pizza",
+      31: "End-of-Month Demo Day"
+    };
+
+    for (let i = 0; i < firstDay; i++) {
+      const empty = document.createElement("div");
+      calendarEl.appendChild(empty);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const div = document.createElement("div");
+      div.classList.add("day");
+      if (day === today.getDate()) div.classList.add("today");
+      div.textContent = day;
+
+      if (events[day]) {
+        const popup = document.createElement("div");
+        popup.classList.add("event-popup");
+        popup.innerText = events[day];
+        div.appendChild(popup);
+
+        div.addEventListener("click", () => {
+          popup.classList.toggle("visible");
+        });
+      }
+
+      calendarEl.appendChild(div);
+    }
+  </script>
+</body>
+</html>
