@@ -1,0 +1,4 @@
+RewriteEngine ON
+
+RewriteRule ^index$ index.html [L]
+RewriteRule ^about$ about.html [L]
