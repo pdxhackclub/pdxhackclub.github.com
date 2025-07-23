@@ -1,4 +1,4 @@
-RewriteEngine ON
+RewriteEngine On
 
-RewriteRule ^index$ index.html [L]
-RewriteRule ^about$ about.html [L]
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^([^/]+)$ $1.html [L]
